@@ -101,6 +101,8 @@ class FooterDesktop extends React.Component {
                       />
                     </Link>
                   </div>
+                  Change Your Language <br></br>
+                  <div id="google_translate_element"></div>
                 </Col>
               </Row>
               <div className="footer-bottom">
