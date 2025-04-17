@@ -142,6 +142,21 @@ class Cart extends Component {
                         <i className="fa fa-trash-alt"></i> Remove{" "}
                       </Button>
                     </Col>
+                    <Col className="p-1" lg={12} md={12} sm={12} xs={12}>
+                      <Card>
+                        <Card.Body>
+                          <Row>
+                            <Col md={4} lg={4} sm={6} xs={6}>
+                              <h5> Total Item = 05 </h5>
+                              <h5>Total Price = 5000$</h5>
+                              <Button className="btn btn-block w-100 mt-3  site-btn">
+                                <i className="fa fa-shopping-cart"></i> CheckOut{" "}
+                              </Button>
+                            </Col>
+                          </Row>
+                        </Card.Body>
+                      </Card>
+                    </Col>
                   </Row>
                 </Card.Body>
               </Card>
