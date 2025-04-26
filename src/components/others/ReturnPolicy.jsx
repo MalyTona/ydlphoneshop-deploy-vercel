@@ -1,7 +1,58 @@
 import React, { Component, Fragment } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import AppURL from "../../api/AppURL";
+import axios from "axios";
+import parse from "html-react-parser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "placeholder-loading/dist/css/placeholder-loading.css";
 
 class ReturnPolicy extends Component {
+  constructor() {
+    super();
+    this.state = {
+      refund: "",
+      loaderDiv: "",
+      mainDiv: "d-none",
+    };
+  }
+
+  componentDidMount() {
+    let SiteInfoRefund = sessionStorage.getItem("SiteInfoRefund");
+
+    if (SiteInfoRefund == null) {
+      axios
+        .get(AppURL.AllSiteInfo)
+        .then((response) => {
+          let StatusCode = response.status;
+          if (StatusCode == 200) {
+            let JsonData = response.data[0]["refund"];
+            this.setState({
+              refund: JsonData,
+              loaderDiv: "d-none",
+              mainDiv: "",
+            });
+            sessionStorage.setItem("SiteInfoRefund", JsonData);
+          } else {
+            toast.error("Something went wrong", {
+              position: "bottom-center",
+            });
+          }
+        })
+        .catch((error) => {
+          toast.error("Something went wrong", {
+            position: "bottom-center",
+          });
+        });
+    } else {
+      this.setState({
+        refund: SiteInfoRefund,
+        loaderDiv: "d-none",
+        mainDiv: "",
+      });
+    }
+  }
+
   render() {
     return (
       <Fragment>
@@ -14,32 +65,52 @@ class ReturnPolicy extends Component {
               sm={12}
               xs={12}
             >
-              <h4 className="section-title-login text-gradient mt-2 mb-2">
-                <i className="fas fa-undo"></i>
-                គោលការណ៍​ត្រឡប់​ទំនិញ
-              </h4>
-              <p className="section-title-contact">
-                នៅ <strong>YDL PhoneShop</strong>,
-                យើងមានគោលការណ៍ត្រឡប់ទំនិញដែលសមរម្យ
-                ដើម្បីធានាថាអ្នកទិញទទួលបានបទពិសោធន៍ល្អបំផុត។<br></br>
-                <br></br>✅ អ្នកអាចត្រឡប់ទំនិញក្នុងរយៈពេល{" "}
-                <strong>7 ថ្ងៃ</strong> បន្ទាប់ពីទិញ
-                ប្រសិនបើទំនិញមានបញ្ហាផលិតកម្ម ឬមិនត្រូវនឹងអ្វីដែលបានបញ្ជាក់។
-                <br></br>
-                <br></br>✅ សូមរក្សាទុកវិក័យបត្រ និងការវេចខ្ចប់ដើម
-                ដើម្បីធានាការត្រឡប់បានលឿននិងមានប្រសិទ្ធភាព។<br></br>
-                <br></br>✅ ឥវ៉ាន់ដែលប៉ះពាល់ដោយការប្រើប្រាស់ខុសពីបំណង
-                ឬខូចដោយប្រើប្រាស់ខុសវិធី នឹងមិនអាចត្រឡប់បានទេ។<br></br>
-                <br></br>✅ ការត្រឡប់អាចជាវិញទំនិញថ្មី
-                ឬបង្វិលប្រាក់វិញ—យើងនឹងពិចារណាដោយផ្អែកលើស្ថានភាពនៃការត្រឡប់។
-                <br></br>
-                <br></br>
-                <strong>YDL PhoneShop</strong> សូមអរគុណដែលជ្រើសរើសពួកយើង។
-                បើមានសំណួរផ្សេងៗ សូមទំនាក់ទំនងមកកាន់ក្រុមការងាររបស់យើង។
-              </p>
+              {/* Loading Placeholder */}
+              <div className={this.state.loaderDiv}>
+                <div className="ph-item">
+                  <div className="ph-col-12">
+                    <div className="ph-row">
+                      <div className="ph-col-4"></div>
+                      <div className="ph-col-8 empty"></div>
+                      <div className="ph-col-6"></div>
+                      <div className="ph-col-6 empty"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="ph-item">
+                  <div className="ph-col-12">
+                    <div className="ph-row">
+                      <div className="ph-col-4"></div>
+                      <div className="ph-col-8 empty"></div>
+                      <div className="ph-col-6"></div>
+                      <div className="ph-col-6 empty"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Content Section */}
+              <div className={this.state.mainDiv}>
+                <h4 className="section-title-login text-gradient mt-2 mb-2">
+                  <i className="fas fa-undo"></i> គោលការណ៍ត្រឡប់ទំនិញ
+                </h4>
+                <p className="section-title-contact">
+                  {parse(this.state.refund)}
+                  <br />
+                </p>
+              </div>
             </Col>
           </Row>
         </Container>
+        <ToastContainer />
       </Fragment>
     );
   }

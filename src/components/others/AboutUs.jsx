@@ -1,7 +1,58 @@
 import React, { Component, Fragment } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import AppURL from "../../api/AppURL";
+import axios from "axios";
+import parse from "html-react-parser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "placeholder-loading/dist/css/placeholder-loading.css"; // Add this import
 
 class AboutUs extends Component {
+  constructor() {
+    super();
+    this.state = {
+      aboutus: "",
+      loaderDiv: "", // Add loading state
+      mainDiv: "d-none", // Add content visibility state
+    };
+  }
+
+  componentDidMount() {
+    let SiteInfoAbout = sessionStorage.getItem("SiteInfoAbout");
+
+    if (SiteInfoAbout == null) {
+      axios
+        .get(AppURL.AllSiteInfo)
+        .then((response) => {
+          let StatusCode = response.status;
+          if (StatusCode == 200) {
+            let JsonData = response.data[0]["aboutus"];
+            this.setState({
+              aboutus: JsonData,
+              loaderDiv: "d-none", // Hide loader
+              mainDiv: "", // Show content
+            });
+            sessionStorage.setItem("SiteInfoAbout", JsonData);
+          } else {
+            toast.error("Something went wrong", {
+              position: "bottom-center",
+            });
+          }
+        })
+        .catch((error) => {
+          toast.error("Something went wrong", {
+            position: "bottom-center",
+          });
+        });
+    } else {
+      this.setState({
+        aboutus: SiteInfoAbout,
+        loaderDiv: "d-none", // Hide loader for cached data
+        mainDiv: "", // Show content
+      });
+    }
+  }
+
   render() {
     return (
       <Fragment>
@@ -14,46 +65,52 @@ class AboutUs extends Component {
               sm={12}
               xs={12}
             >
-              <h4 className="section-title-login text-gradient mt-2 mb-2">
-                <i className="fas fa-info-circle"></i>
-                អំពី YDL PhoneShop
-              </h4>
-              <p className="section-title-contact">
-                សួស្តី! ខ្ញុំ​គឺជា Yothdalen ជាអ្នកស្ថាបនារបស់{" "}
-                <strong>YDL PhoneShop</strong>។ យើងជាហាងលក់ និងជួសជុលទូរស័ព្ទដៃ
-                ដែលមានជំនាញខ្ពស់ និងបទពិសោធន៍ជិត <strong>10 ឆ្នាំ</strong>{" "}
-                ក្នុងការផ្តល់សេវាកម្មបច្ចេកវិទ្យាទូរស័ព្ទដល់អតិថិជនជាច្រើន។
-                <br></br>
-                <br></br>
-                នៅ <strong>YDL PhoneShop</strong> យើងផ្តោតទៅលើការផ្តល់សេវាកម្ម
-                ដោយផ្តាច់មុខចំពោះការជួសជុលទូរស័ព្ទដៃ ដូចជា ប្តូរអេក្រង់
-                ប្តូរបាតូរី ការជួសជុលម៉ែដប កាមេរ៉ា និងបញ្ហាផ្នែកខាងក្នុងផ្សេងៗ។
-                យើងអនុវត្តន៍ការជួសជុលយ៉ាងម៉ឺងម៉ាត់
-                និងប្រើគ្រឿងបន្លាស់គុណភាពខ្ពស់
-                ដើម្បីធានានូវជីវិតប្រើប្រាស់វែងរយៈពេលវែង។<br></br>
-                <br></br>
-                ក្រៅពីសេវាកម្មជួសជុល យើងក៏មានការលក់ទូរស័ព្ទដៃថ្មី
-                និងទូរស័ព្ទប្រើរួចដែលមានគុណភាពល្អ តម្លៃសមរម្យ។
-                រួមទាំងគ្រឿងបន្លាស់ដូចជា ខ្សែសាក កាស Bluetooth ឃេស
-                កាសស្តាប់ត្រចៀក និងផលិតផលបច្ចេកវិទ្យាផ្សេងទៀត។<br></br>
-                <br></br>
-                យើងកម្រិតតម្លៃតាមសេវាកម្ម ពិនិត្យដោយឥតគិតថ្លៃ
-                មិនគិតថ្លៃប្រសិនបើមិនជួសជុល។
-                យើងផ្តល់អាទិភាពខ្ពស់ចំពោះអតិថិជនដោយផ្តល់សេវាឆាប់រហ័ស
-                ការទទួលខុសត្រូវ និងការធានា បន្ទាន់ៗ។<br></br>
-                <br></br>
-                មិនថាអ្នកត្រូវការជួសជុលទូរស័ព្ទឆាប់បំផុត ទិញទូរស័ព្ទថ្មី
-                ឬចង់ទទួលយោបល់ពីអ្នកជំនាញ
-                <strong>YDL PhoneShop</strong> នៅទីនេះដើម្បីជួយអ្នក។<br></br>
-                <br></br>
-                <strong>
-                  YDL PhoneShop – ជាដៃគូបច្ចេកវិទ្យាដែលអ្នកអាចទុកចិត្តបាន
-                  សម្រាប់ការជួសជុល និងទិញទូរស័ព្ទយ៉ាងមានទំនុកចិត្ត។
-                </strong>
-              </p>
+              {/* Loading Placeholder */}
+              <div className={this.state.loaderDiv}>
+                <div className="ph-item">
+                  <div className="ph-col-12">
+                    <div className="ph-row">
+                      <div className="ph-col-4"></div>
+                      <div className="ph-col-8 empty"></div>
+                      <div className="ph-col-6"></div>
+                      <div className="ph-col-6 empty"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="ph-item">
+                  <div className="ph-col-12">
+                    <div className="ph-row">
+                      <div className="ph-col-4"></div>
+                      <div className="ph-col-8 empty"></div>
+                      <div className="ph-col-6"></div>
+                      <div className="ph-col-6 empty"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                      <div className="ph-col-12"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Content Section */}
+              <div className={this.state.mainDiv}>
+                <h4 className="section-title-login text-gradient mt-2 mb-2">
+                  <i className="fas fa-info-circle"></i>
+                  អំពី YDL PhoneShop
+                </h4>
+                <p className="section-title-contact">
+                  {parse(this.state.aboutus)}
+                </p>
+              </div>
             </Col>
           </Row>
         </Container>
+        <ToastContainer />
       </Fragment>
     );
   }

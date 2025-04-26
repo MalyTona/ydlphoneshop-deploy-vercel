@@ -1,81 +1,90 @@
-import React, { useState } from "react";
-import {
-  FaMobileAlt,
-  FaChargingStation,
-  FaWrench,
-  FaHeadphones,
-  FaBatteryFull,
-} from "react-icons/fa";
+import React, { Component } from "react";
 
-const MegaMenu = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
+class MegaMenu extends Component {
+  constructor() {
+    super();
+    this.state = {
+      activeIndex: null, // Tracks the currently active accordion
+    };
+  }
 
-  const toggleAccordion = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
+  toggleAccordion = (index) => {
+    this.setState({
+      activeIndex: this.state.activeIndex === index ? null : index, // Toggle the active accordion
+    });
   };
 
-  return (
-    <div className="accordionMenuDivMobile">
-      <div className="accordionMenuDivInsideMobile">
-        {[
-          {
-            icon: <FaMobileAlt />,
-            label: "Mobile Phones",
-            items: ["iPhone", "Samsung", "Xiaomi", "Oppo", "Vivo", "Pova"],
-          },
-          {
-            icon: <FaHeadphones />,
-            label: "Accessories",
-            items: ["AirPods", "Speakers", "Phone Cases", "Screen Protectors"],
-          },
-          {
-            icon: <FaChargingStation />,
-            label: "Chargers & Cables",
-            items: ["Fast Chargers", "Wireless Chargers", "Type-C Cables"],
-          },
-          {
-            icon: <FaBatteryFull />,
-            label: "Battery & Power",
-            items: ["Power Banks", "Replacement Batteries"],
-          },
-          {
-            icon: <FaWrench />,
-            label: "Repair Services",
-            items: [
-              "Screen Replacement",
-              "Battery Change",
-              "Water Damage Repair",
-            ],
-          },
-        ].map((category, index) => (
-          <div key={index}>
-            <button
-              className={`accordionMobile ${
-                activeIndex === index ? "active" : ""
-              }`}
-              onClick={() => toggleAccordion(index)}
-            >
-              {category.icon} &nbsp; {category.label}
-            </button>
-            <div
-              className="panelMobile"
-              style={{ maxHeight: activeIndex === index ? "150px" : "0" }}
-            >
-              <ul>
-                {category.items.map((item, i) => (
-                  <li key={i}>
-                    <a href="#" className="accordionItemMobile">
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+  render() {
+    const categories = [
+      {
+        label: "Mobile Phones",
+        icon: "https://cdn-icons-png.flaticon.com/128/2482/2482945.png",
+        items: ["iPhone", "Samsung", "Xiaomi", "Oppo", "Vivo", "Pova"],
+      },
+      {
+        label: "Accessories",
+        icon: "https://cdn-icons-png.flaticon.com/128/2482/2482945.png",
+        items: ["AirPods", "Speakers", "Phone Cases", "Screen Protector"],
+      },
+      {
+        label: "Chargers & Cables",
+        icon: "https://cdn-icons-png.flaticon.com/128/2482/2482945.png",
+        items: ["Fast Chargers", "Wireless Chargers", "Type-C Cables"],
+      },
+      {
+        label: "Battery & Power",
+        icon: "https://cdn-icons-png.flaticon.com/128/2482/2482945.png",
+        items: ["Power Banks", "Replacement Batteries"],
+      },
+      {
+        label: "Repair Services",
+        icon: "https://cdn-icons-png.flaticon.com/128/2482/2482945.png",
+        items: ["Screen Replacement", "Battery Change", "Water Damage Repair"],
+      },
+    ];
+
+    return (
+      <div className="accordionMenuDivMobile">
+        <div className="accordionMenuDivInsideMobile">
+          {categories.map((category, index) => (
+            <div key={index}>
+              <button
+                className={`accordionMobile ${
+                  this.state.activeIndex === index ? "active" : ""
+                }`}
+                onClick={() => this.toggleAccordion(index)}
+              >
+                <img
+                  className="accordionMenuIconMobile"
+                  src={category.icon}
+                  alt="icon"
+                />
+                &nbsp; {category.label}
+              </button>
+              <div
+                className="panelMobile"
+                style={{
+                  maxHeight: this.state.activeIndex === index ? "150px" : "0",
+                  overflow: "hidden",
+                  transition: "max-height 0.3s ease",
+                }}
+              >
+                <ul>
+                  {category.items.map((item, i) => (
+                    <li key={i}>
+                      <a href="#" className="accordionItemMobile">
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default MegaMenu;
