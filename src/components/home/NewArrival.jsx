@@ -5,11 +5,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import AppURL from "../../api/AppURL";
 import axios from "axios";
+import NewArrivalLoading from "../PlaceHolder/NewArrivalLoading";
 class NewArrival extends Component {
   constructor(props) {
     super(props);
     this.state = {
       ProductData: [],
+      isLoading: "",
+      mainDiv: "d-none",
     };
     this.next = this.next.bind(this);
     this.previous = this.previous.bind(this);
@@ -24,7 +27,11 @@ class NewArrival extends Component {
     axios
       .get(AppURL.ProductListByRemark("NEW"))
       .then((response) => {
-        this.setState({ ProductData: response.data });
+        this.setState({
+          ProductData: response.data,
+          isLoading: "d-none",
+          mainDiv: "",
+        });
       })
       .catch((error) => {});
   }
@@ -104,37 +111,40 @@ class NewArrival extends Component {
 
     return (
       <Fragment>
-        <Container className="text-center" fluid={true}>
-          <div className="section-title text-center mb-4">
-            <h2 className="fw-bold text-uppercase position-relative d-inline-block">
-              <span className="text-gradient">New Arrival</span>
-            </h2>
-            <p className="text-muted fs-5">
-              Some Of Our Exclusive Collection, You May Like
-            </p>
+        <NewArrivalLoading isLoading={this.state.isLoading} />
+        <div className={this.state.mainDiv}>
+          <Container className="text-center" fluid={true}>
+            <div className="section-title text-center mb-4">
+              <h2 className="fw-bold text-uppercase position-relative d-inline-block">
+                <span className="text-gradient">New Arrival</span>
+              </h2>
+              <p className="text-muted fs-5">
+                Some Of Our Exclusive Collection, You May Like
+              </p>
 
-            <div className="d-flex justify-content-center align-items-center mt-3 gap-3">
-              <button
-                className="btn-nav rounded-circle d-flex align-items-center justify-content-center"
-                onClick={this.previous}
-              >
-                <i className="fa fa-angle-left"></i>
-              </button>
-              <button
-                className="btn-nav rounded-circle d-flex align-items-center justify-content-center"
-                onClick={this.next}
-              >
-                <i className="fa fa-angle-right"></i>
-              </button>
+              <div className="d-flex justify-content-center align-items-center mt-3 gap-3">
+                <button
+                  className="btn-nav rounded-circle d-flex align-items-center justify-content-center"
+                  onClick={this.previous}
+                >
+                  <i className="fa fa-angle-left"></i>
+                </button>
+                <button
+                  className="btn-nav rounded-circle d-flex align-items-center justify-content-center"
+                  onClick={this.next}
+                >
+                  <i className="fa fa-angle-right"></i>
+                </button>
+              </div>
             </div>
-          </div>
 
-          <Row>
-            <Slider ref={(c) => (this.slider = c)} {...settings}>
-              {MyView}
-            </Slider>
-          </Row>
-        </Container>
+            <Row>
+              <Slider ref={(c) => (this.slider = c)} {...settings}>
+                {MyView}
+              </Slider>
+            </Row>
+          </Container>
+        </div>
       </Fragment>
     );
   }
