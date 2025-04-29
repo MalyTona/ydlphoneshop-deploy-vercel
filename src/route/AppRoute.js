@@ -20,28 +20,87 @@ class AppRoute extends Component {
     return (
       <Fragment>
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/login" component={UserLoginPage} />
-          <Route exact path="/contact" component={ContactPage} />
-          <Route exact path="/purchase" component={PurchasePage} />
-          <Route exact path="/returnpolicy" component={ReturnPage} />
-          <Route exact path="/aboutus" component={AboutUsPage} />
-          <Route exact path="/service" component={ServicePage} />
-          <Route exact path="/shipping" component={ShippingInfoPage} />
-          <Route exact path="/privacy" component={PrivacyPage} />
-          <Route exact path="/productdetials" component={ProductDetailsPage} />
-          <Route exact path="/notification" component={NotificationPage} />
-          <Route exact path="/favourite" component={FavouritePage} />
-          <Route exact path="/cart" component={CartPage} />
+          <Route
+            exact
+            path="/"
+            render={(props) => <HomePage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/login"
+            render={(props) => <UserLoginPage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/contact"
+            render={(props) => <ContactPage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/purchase"
+            render={(props) => <PurchasePage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/returnpolicy"
+            render={(props) => <ReturnPage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/aboutus"
+            render={(props) => <AboutUsPage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/service"
+            render={(props) => <ServicePage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/shipping"
+            render={(props) => <ShippingInfoPage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/privacy"
+            render={(props) => <PrivacyPage {...props} key={Date.now()} />}
+          />
+
+          <Route
+            exact
+            path="/productdetails/:code"
+            render={(props) => (
+              <ProductDetailsPage {...props} key={Date.now()} />
+            )}
+          />
+          <Route
+            exact
+            path="/notification"
+            render={(props) => <NotificationPage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/favourite"
+            render={(props) => <FavouritePage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/cart"
+            render={(props) => <CartPage {...props} key={Date.now()} />}
+          />
           <Route
             exact
             path="/productcategory/:category"
-            component={ProductCategoryPage}
+            render={(props) => (
+              <ProductCategoryPage {...props} key={Date.now()} />
+            )}
           />
           <Route
             exact
             path="/productsubcategory/:category/:subcategory"
-            component={ProductSubCategoryPage}
+            render={(props) => (
+              <ProductSubCategoryPage {...props} key={Date.now()} />
+            )}
           />
         </Switch>
       </Fragment>

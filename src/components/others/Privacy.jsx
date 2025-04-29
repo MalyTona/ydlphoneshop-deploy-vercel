@@ -6,7 +6,8 @@ import parse from "html-react-parser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "placeholder-loading/dist/css/placeholder-loading.css"; // Added import
-
+import Breadcrumb from "react-bootstrap/Breadcrumb";
+import { Link } from "react-router-dom";
 class Privacy extends Component {
   constructor() {
     super();
@@ -57,6 +58,19 @@ class Privacy extends Component {
     return (
       <Fragment>
         <Container>
+          <div className="breadbody">
+            <Breadcrumb>
+              <Breadcrumb.Item>
+                {" "}
+                <Link to="/"> Home </Link>{" "}
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                {" "}
+                <Link to="/Privacy"> Privacy </Link>{" "}
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          </div>
+
           <Row className="p-2">
             <Col
               className="shadow-sm bg-white mt-2"
