@@ -15,6 +15,11 @@ import FavouritePage from "../pages/FavouritePage";
 import CartPage from "../pages/CartPage";
 import ProductCategoryPage from "../pages/ProductCategoryPage";
 import ProductSubCategoryPage from "../pages/ProductSubCategoryPage";
+import SearchPage from "../pages/SearchPage";
+import RegisterPage from "../pages/RegisterPage";
+import ForgetPassword from "../components/common/ForgetPassword";
+import ResetPassword from "../components/common/ResetPassword";
+import ProfilePage from "../pages/ProfilePage";
 class AppRoute extends Component {
   render() {
     return (
@@ -101,6 +106,32 @@ class AppRoute extends Component {
             render={(props) => (
               <ProductSubCategoryPage {...props} key={Date.now()} />
             )}
+          />
+          <Route
+            exact
+            path="/productbysearch/:searchkey"
+            render={(props) => <SearchPage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/register"
+            render={(props) => <RegisterPage {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/forget"
+            render={(props) => <ForgetPassword {...props} key={Date.now()} />}
+          />
+
+          <Route
+            exact
+            path="/reset/:id"
+            render={(props) => <ResetPassword {...props} key={Date.now()} />}
+          />
+          <Route
+            exact
+            path="/profile"
+            render={(props) => <ProfilePage {...props} key={Date.now()} />}
           />
         </Switch>
       </Fragment>
