@@ -18,7 +18,8 @@
 @import "productDetails.css";
 @import "notification.css";
 @import "cartList.css";
-
+@import "category.css";
+@import "FeaturedProduct.css";
 body {
   background-color: rgb(255, 255, 255);
 }
